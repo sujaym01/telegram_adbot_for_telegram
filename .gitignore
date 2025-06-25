@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Env & Secrets
+.env
+
+# SQLite DB
+*.sqlite3
+
+# VSCode & OS
+.vscode/
+.DS_Store
+
+# WebApp Node Modules (if any in future)
+node_modules/

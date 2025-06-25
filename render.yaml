@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: telegram-adbot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: BOT_TOKEN
+        value: 7499630173:AAGzeUrar5Il4dTva5jw10bU7kfogoQAOI8
+      - key: ADMIN_ID
+        value: "6190806369"
+      - key: CPA_LINK
+        value: https://cpa-link.com
+      - key: WEBAPP_URL
+        value: https://telegram-adbot-for-telegram.onrender.com
+
+    plan: free
+    autoDeploy: true
