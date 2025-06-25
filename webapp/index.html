@@ -1,97 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Ad Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Withdraw Form</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #101010;
-      color: #f0f0f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .card {
-      background: #1c1c1c;
-      padding: 24px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 10px rgba(0,255,100,0.2);
-    }
-    h2 {
-      color: #00ff88;
-      text-align: center;
-    }
-    .info {
-      margin: 20px 0;
-      line-height: 1.6;
-    }
-    .info b {
-      color: #ffffff;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .watch {
-      background-color: #00cc66;
-      color: white;
-    }
-    .withdraw {
-      background-color: #3366ff;
-      color: white;
-    }
+    body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background: #f4f4f4; }
+    .card { background: #fff; padding: 20px 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 90%; max-width: 400px; }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 6px; border: 1px solid #ccc; }
+    button { background: #28a745; color: #fff; border: none; cursor: pointer; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>🎯 Ad Earning Dashboard</h2>
-    <div class="info" id="userInfo">
-      👤 <b>Username:</b> @guest<br />
-      👁️ <b>Watched Ads:</b> 0<br />
-      💰 <b>Earned Points:</b> 0.00<br />
-      🔁 <b>Progress:</b> 0%
-    </div>
-    <button class="watch" onclick="watchAd()">🎥 Watch Ad</button>
-    <button class="withdraw" onclick="withdraw()">💸 Withdraw</button>
+    <h2>💸 Withdraw Request</h2>
+    <input type="text" id="username" placeholder="Telegram Username (without @)" />
+    <input type="text" id="user_id" placeholder="Telegram User ID" />
+    <input type="text" id="number" placeholder="Payment Number" />
+    <button onclick="submit()">Submit Request</button>
+    <p id="msg"></p>
   </div>
-
   <script>
-    const tg = window.Telegram.WebApp;
-    const user = tg.initDataUnsafe.user || { username: "guest", id: 0 };
-
-    document.getElementById("userInfo").innerHTML = `
-      👤 <b>Username:</b> @${user.username || "guest"}<br />
-      👁️ <b>Watched Ads:</b> 15<br />
-      💰 <b>Earned Points:</b> 8.00<br />
-      🔁 <b>Progress:</b> 150%
-    `;
-
-    function watchAd() {
-      const refLink = "https://your-cpa-link.com/?ref=" + user.id;
-      window.location.href = refLink;
-    }
-
-    function withdraw() {
-      const number = prompt("📱 Enter your Bkash/Nagad number:");
-      if (number) {
-        fetch("/withdraw", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: user.id, username: user.username, number }),
-        }).then(() => alert("✅ Withdraw request sent!"));
-      }
+    async function submit() {
+      const res = await fetch("/withdraw", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: document.getElementById("username").value,
+          user_id: document.getElementById("user_id").value,
+          number: document.getElementById("number").value,
+        })
+      });
+      document.getElementById("msg").innerText = "✅ Request sent!";
     }
   </script>
 </body>
